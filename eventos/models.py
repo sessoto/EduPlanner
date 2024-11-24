@@ -9,9 +9,10 @@ class Evento(models.Model):
         ('fin_semestre', 'Fin de Semestre'),
         ('examen', 'Examen'),
         ('feriado', 'Feriado'),
-        ('inscripcion', 'Inscripción'),
+        ('inicio_inscripcion', 'Inicio de Inscripciones'),
+        ('fin_inscripcion', 'Fin de Inscripciones'),
     ]
-    #variables#
+    #demás variables de un evento#
     titulo = models.CharField(max_length=200)
     desc = models.TextField()
     fecha_inicio = models.DateField()
