@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e26d6d;
+}
+
+
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
+    color: #fff;
+}
+
+.navbar-logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.navbar-menu {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-menu li {
+    margin-left: 20px;
+}
+
+.navbar-menu a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.navbar-menu a:hover {
+    text-decoration: underline;
+}
+
+/* Título */
+h1 {
+    color: #333;
+    margin-top: 20px;
+    text-align: center;
+}
+
+/* Contenedor del calendario */
+#calendar-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#calendar {
+    width: 90%;
+    max-width: 800px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Días del calendario */
+.day {
+    display: inline-block;
+    width: calc(100% / 7);
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    text-align: center;
+    color: #333;
+}
+
+.day-header {
+    font-weight: bold;
+    background: #f0f0f0;
+    padding: 10px 0;
+}
+
+.day.event {
+    background-color: #ffeb3b;
+}
+
+.day.holiday {
+    background-color: #4caf50;
+    color: #fff;
+}
+
+:root {
+    --fc-border-color: black;
+    --fc-daygrid-event-dot-width: 5px;
+  }

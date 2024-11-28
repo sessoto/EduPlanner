@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import Evento
+from .models import Eventos
 
-@admin.register(Evento)
+@admin.register(Eventos)
 class EventoAdmin(admin.ModelAdmin):
-    list_display = ('nombre', 'fecha_inicio', 'fecha_fin', 'es_feriado')
-    list_filter = ('es_feriado',)
+    list_display = ('nombre','descripcion', 'fecha')
     search_fields = ('nombre',)

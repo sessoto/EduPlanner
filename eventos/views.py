@@ -1,22 +1,32 @@
 from django.http import JsonResponse
-from eventos.models import Evento
+from eventos.models import Eventos
+from django.shortcuts import render
+from django.views.generic import TemplateView
+
+
+
+class calendarioView(TemplateView):
+    template_name= "calendario.html"
 
 def api_eventos(request):
-    eventos = Evento.objects.all()
+    
+    lista = Eventos.objects.all()
     data = {
-        "eventos": [
+         [
             {
                 "nombre": evento.nombre,
                 "descripcion": evento.descripcion,
-                "fecha": evento.fecha_inicio.isoformat(),
-                "es_feriado": evento.es_feriado,
+                "fecha": evento.fecha.isoformat(),
+
             }
-            for evento in eventos
+            for evento in lista
         ]
     }
     return JsonResponse(data)
-from django.shortcuts import render
 
-def calendario(request):
-    return render(request, 'eventos/calendario.html')
+
+def calendario_admin(request):
+    return render(request, 'calendario_admin.html')
+
+
 

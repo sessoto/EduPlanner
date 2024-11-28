@@ -1,12 +1,11 @@
 from django.db import models
-
-class Evento(models.Model):
-    #variables del evento
+from django.db.models import Model
+class Eventos(Model):
+    # Columnas de la tabla evento
     nombre = models.CharField(max_length=100) 
     descripcion = models.TextField() 
-    fecha_inicio = models.DateField() 
-    fecha_fin = models.DateField()  
-    es_feriado = models.BooleanField(default=False)  
+    fecha = models.DateField() 
+    
 
     def __str__(self):
-        return self.nombre
+        return self
