@@ -7,7 +7,6 @@ body {
 
 
 
-/* Navbar */
 .navbar {
     display: flex;
     justify-content: space-between;
@@ -43,14 +42,14 @@ body {
     text-decoration: underline;
 }
 
-/* Título */
+
 h1 {
     color: #333;
     margin-top: 20px;
     text-align: center;
 }
 
-/* Contenedor del calendario */
+
 #calendar-container {
     display: flex;
     justify-content: center;
@@ -66,7 +65,7 @@ h1 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-/* Días del calendario */
+
 .day {
     display: inline-block;
     width: calc(100% / 7);

@@ -7,6 +7,115 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendario de Eventos</title>
     <link rel="stylesheet" href="{% static 'calendario.css' %}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar-menu {
+            list-style-type: none;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .navbar-menu li a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar-menu li a:hover {
+            background-color: #444;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            color: #333;
+        }
+
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: calc(100vh - 150px); /* Asegura que el formulario esté centrado en la pantalla */
+        }
+
+        form {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        form div {
+            margin-bottom: 20px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        form textarea {
+            resize: vertical;
+            height: 150px;
+        }
+
+        form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        .delete-button {
+            background-color: #dc3545;
+        }
+
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -17,25 +126,32 @@
         </ul>
     </nav>
 
-    <h1>Agrega un evento</h1>
+    <h1>Gestiona tus Eventos</h1>
 
-    
-    <form id="eventoForm" method="POST" action="{% url 'crear_evento' %}">
-        {% csrf_token %}
-        <div>
-            <label for="nombre">Nombre del Evento:</label>
-            <input type="text" id="nombre" name="nombre" required placeholder="Nombre del evento">
-        </div>
-        <div>
-            <label for="descripcion">Descripción:</label>
-            <textarea id="descripcion" name="descripcion" required placeholder="Descripción del evento"></textarea>
-        </div>
-        <div>
-            <label for="fecha">Fecha:</label>
-            <input type="date" id="fecha" name="fecha" required>
-        </div>
-        <button type="submit">Guardar Evento</button>
-    </form>
+    <div class="form-container">
+        <form id="eventoForm" method="POST" action="{% url 'crear_evento' %}">
+            {% csrf_token %}
+            <!-- Campo oculto para saber si es una modificación -->
+            <input type="hidden" id="eventoId" name="eventoId" value="">
+            
+            <div>
+                <label for="nombre">Nombre del Evento:</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Nombre del evento">
+            </div>
+            <div>
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" required placeholder="Descripción del evento"></textarea>
+            </div>
+            <div>
+                <label for="fecha">Fecha:</label>
+                <input type="date" id="fecha" name="fecha" required>
+            </div>
+
+            <!-- Botones para guardar, modificar o eliminar -->
+            <button type="submit" id="guardarBtn">Guardar Evento</button>
+            <button type="button" id="eliminarBtn" class="delete-button" style="display: none;">Eliminar Evento</button>
+        </form>
+    </div>
 
     <script src="{% static 'eventos/calendario.js' %}"></script>
 </body>
