@@ -7,13 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calendario de Eventos</title>
     <link rel="stylesheet" href="{% static 'calendario.css' %}">
-    <link rel="stylesheet" href="{% static '/fullcal/fullcalendar-6.1.15/lib/calendario.css' %}">
     <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.7/index.global.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-    
     <nav class="navbar">
         <div class="navbar-logo">Calendario de Eventos</div>
         <ul class="navbar-menu">
@@ -22,19 +20,69 @@
         </ul>
     </nav>
 
-    
     <h1>Calendario de Eventos y Feriados</h1>
 
-
-    <h1>Consultar Feriados</h1>
-
-
-    <h1>Calendario de Feriados - Año {{ year }}</h1>
+    
     <div id="calendar"></div>
+
+    
+    <form id="yearForm">
+        <label for="yearInput">Año:</label>
+        <input type="number" id="yearInput" name="year" placeholder="Ingrese un año" required>
+        <button type="submit">Consultar</button>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const calendarElement = document.getElementById("calendar");
+            const yearForm = document.getElementById("yearForm");
+            const yearInput = document.getElementById("yearInput");
+
+           
+            let calendar = new FullCalendar.Calendar(calendarElement, {
+                initialView: 'dayGridMonth',
+                locale: 'es',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay',
+                },
+                eventColor: '#FF5733', 
+                eventClick: function(info) {
+                    alert(`Evento: ${info.event.title}\nDescripción: ${info.event.extendedProps.description}`);
+                },
+            });
+
+            calendar.render();
+
+            
+            yearForm.addEventListener("submit", function(event) {
+                event.preventDefault(); 
+
+                const year = yearInput.value.trim(); 
+
+                if (year) {
+                    
+                    axios.get(`/programaApi/consultar-feriados/?year=${year}`)
+                        .then(response => {
+                            calendar.removeAllEvents(); 
+                            calendar.addEventSource(response.data);
+                        })
+                        .catch(error => {
+                            console.error("Error al cargar los feriados:", error);
+                            alert("Ocurrió un error al cargar los feriados. Por favor, inténtalo nuevamente.");
+                        });
+                } else {
+                    alert("Por favor, ingresa un año válido.");
+                }
+            });
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
+            
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
                 locale: 'es',
@@ -44,108 +92,18 @@
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
                 events: function(fetchInfo, successCallback, failureCallback) {
-                    axios.get('/ruta-a-tu-vista-de-feriados/', {
-                        params: {
-                            year: '{{ year }}'
-                        }
-                    })
-                    .then(response => {
-                        successCallback(response.data);
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar los feriados:', error);
-                    });
+                    axios.get('/cargar-eventos-feriados/')  
+                        .then(response => {
+                            successCallback(response.data);
+                        })
+                        .catch(error => {
+                            console.error('Error al cargar los eventos y feriados:', error);
+                        });
                 }
             });
-
+    
             calendar.render();
         });
     </script>
-
-    <!-- Formulario para enviar el año -->
-    <form action="{% url 'consultar_feriados' %}" method="get">
-        <label for="year">Año:</label>
-        <input type="number" id="year" name="year" placeholder="Ingrese un año" required>
-        <button type="submit">Consultar</button>
-    </form>
-
-    {% if feriados %}
-        <h2>Feriados para el año {{ year }}</h2>
-        <ul>
-            {% for feriado in feriados %}
-                <li>{{ feriado.nombre }} - {{ feriado.fecha }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-    
-    <script src="{% static 'static/calendario.js' %}"></script>
-    <script src="{% static '/fullcal/fullcalendar-6.1.15/lib/calendario .js' %}"></script>
-    <script>
-
-        document.addEventListener('DOMContentLoaded', function() {
-          var calendarEl = document.getElementById('calendar');
-      
-          var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            initialDate: '2024-11-07',
-            headerToolbar: {
-              left: 'prev,next today',
-              center: 'title',
-              right: 'dayGridMonth,timeGridWeek,timeGridDay'
-            },
-            events: [
-              {
-                title: 'All Day Event',
-                start: '2024-11-01'
-              },
-              {
-                title: 'Long Event',
-                start: '2024-11-07',
-                end: '2024-11-10'
-              },
-              {
-                groupId: '999',
-                title: 'Repeating Event',
-                start: '2024-11-09T16:00:00'
-              },
-              {
-                groupId: '999',
-                title: 'Repeating Event',
-                start: '2024-11-16T16:00:00'
-              },
-              {
-                title: 'Conference',
-                start: '2024-11-11',
-                end: '2024-11-13'
-              },
-              {
-                title: 'Meeting',
-                start: '2024-11-12T10:30:00',
-                end: '2024-11-12T12:30:00'
-              },
-              {
-                title: 'Lunch',
-                start: '2024-11-12T12:00:00'
-              },
-              {
-                title: 'Meeting',
-                start: '2024-11-12T14:30:00'
-              },
-              {
-                title: 'Birthday Party',
-                start: '2024-11-13T07:00:00'
-              },
-              {
-                title: 'Click for Google',
-                url: 'https://google.com/',
-                start: '2024-11-28'
-              }
-            ]
-          });
-      
-          calendar.render();
-        });
-      
-      </script>
 </body>
 </html>

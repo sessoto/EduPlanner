@@ -25,30 +25,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-    // Código JavaScript
+   
     const eventosData = JSON.parse(listaEventos);
     
     const feriadosData = JSON.parse(listaFeriados);
     
     function renderizarCalendario(anio, mes) {
         const contenedor = document.getElementById('calendario');
-        contenedor.innerHTML = ''; // Limpiar calendario previo
+        contenedor.innerHTML = ''; 
 
-        // Obtener días del mes
+        
         const primerDia = new Date(anio, mes, 1);
         const ultimoDia = new Date(anio, mes + 1, 0);
         const totalDias = ultimoDia.getDate();
 
-        // 
+        
         const mapaFeriados = new Map(feriadosData.map(f => [f.nombre, f.descripcion, f.fecha_fin , f.fecha_fin]));
         const mapaEventos = new Map(eventosData.map(e => [e.nombre, e.descripcion, e.fecha_inicio, e.fecha_fin]));
 
-        // Generar días del calendario
+        
         for (let dia = 1; dia <= totalDias; dia++) {
             const fecha = new Date(anio, mes, dia);
             const fechaISO = fecha.toISOString().split('T')[0];
 
-            // Crear día
+            
             const elementoDia = document.createElement('div');
             elementoDia.classList.add('dia');
 
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // Renderizar calendario del mes actual
+    
     const hoy = new Date();
     renderizarCalendario(hoy.getFullYear(), hoy.getMonth());
 

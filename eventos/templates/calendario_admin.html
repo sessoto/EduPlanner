@@ -9,24 +9,34 @@
     <link rel="stylesheet" href="{% static 'calendario.css' %}">
 </head>
 <body>
-    
     <nav class="navbar">
         <div class="navbar-logo">Calendario de Eventos</div>
         <ul class="navbar-menu">
             <li><a href="{% url 'inicio' %}">Inicio</a></li>
-            <li><a href="">Administración</a></li>
+            <li><a href="#">Administración</a></li>
         </ul>
     </nav>
 
-    
-    <h1>Calendario de Eventos y Feriados</h1>
+    <h1>Agrega un evento</h1>
 
     
-    <div id="calendar-container">
-        <div id="calendar"></div>
-    </div>
+    <form id="eventoForm" method="POST" action="{% url 'crear_evento' %}">
+        {% csrf_token %}
+        <div>
+            <label for="nombre">Nombre del Evento:</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Nombre del evento">
+        </div>
+        <div>
+            <label for="descripcion">Descripción:</label>
+            <textarea id="descripcion" name="descripcion" required placeholder="Descripción del evento"></textarea>
+        </div>
+        <div>
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" required>
+        </div>
+        <button type="submit">Guardar Evento</button>
+    </form>
 
-    
     <script src="{% static 'eventos/calendario.js' %}"></script>
 </body>
 </html>
